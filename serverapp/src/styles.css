@@ -1,0 +1,31 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~ag-grid-community/dist/styles/ag-grid.css";
+@import "~ag-grid-community/dist/styles/ag-theme-alpine.css";
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.horizontal-margin {
+  margin: 0px 15px;
+}
+.vertical-margin {
+  margin: 15px 0px;
+}
+
+.fullWidth { width: 99%;}
+.fullHeight { height: 99%;}
+.fullSize { width: 99%; height: 99%;}
+
+.mat-select-trigger {
+  height: 30px;
+}
+
+.fieldName {
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.mat-form-field {
+  width: 100%;
+}

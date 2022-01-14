@@ -1,0 +1,9 @@
+.horizontal-margin {
+  margin: 0px 15px;
+}
+.vertical-margin {
+  margin: 15px 0px;
+}
+.spacer {
+  flex: 1 1 auto;
+}

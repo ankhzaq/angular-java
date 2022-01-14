@@ -1,0 +1,50 @@
+<h1 mat-dialog-title>Student</h1>
+<div>
+  <form [formGroup]="data" class="fullSize">
+    <mat-card class="fullWidth">
+      <mat-card-title>Basic Info</mat-card-title>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput class="form-field fullWidth" placeholder="Name" formControlName="name">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Is preply?</mat-label>
+        <mat-select formControlName="isPreply">
+          <mat-option *ngFor="let option of this.options" [value]="option.value">
+            {{option.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Levels</mat-label>
+        <mat-select formControlName="level">
+          <mat-option *ngFor="let level of this.levels" [value]="level">
+            {{level}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <strong>numPaidClasses</strong>
+      <mat-slider
+        thumbLabel
+        min="0"
+        max="30"
+        step="1"
+        formControlName="numPaidClasses"
+        style="width: 100%"
+      >
+      </mat-slider>
+    </mat-card>
+    <mat-card class="fullWidth vertical-margin">
+      <mat-card-title>Detail Info</mat-card-title>
+      <mat-card-subtitle>Hobbies info</mat-card-subtitle>
+      <textarea matInput formControlName="hobbiesInfo" class="fullWidth" placeholder="Hobbies info"></textarea>
+      <mat-card-subtitle>Class info</mat-card-subtitle>
+      <textarea matInput formControlName="nextClassInfo" class="fullWidth" placeholder="class info"></textarea>
+      <mat-card-subtitle>Progress info</mat-card-subtitle>
+      <textarea matInput formControlName="progressInfo" class="fullWidth" placeholder="Progress info"></textarea>
+      <mat-card-subtitle>Objectives info</mat-card-subtitle>
+      <textarea matInput formControlName="objectivesInfo" class="fullWidth" placeholder="Objectives info"></textarea>
+    </mat-card>
+  </form>
+  <button mat-button [mat-dialog-close]="data" class="fullWidth">Update</button>
+</div>
