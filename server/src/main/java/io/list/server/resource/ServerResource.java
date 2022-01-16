@@ -8,7 +8,9 @@ import static java.util.Map.of;
 
 import io.list.server.model.AGGrid;
 import io.list.server.model.Student;
+import io.list.server.model.User;
 import io.list.server.service.implementation.AGGridServiceImpl;
+import io.list.server.service.implementation.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,10 +24,12 @@ import io.list.server.service.implementation.ServerServiceImpl;
 public class ServerResource {
     private final ServerServiceImpl serverService;
     private final AGGridServiceImpl agGridService;
+    private final UserServiceImpl userService;
 
-    public ServerResource(ServerServiceImpl serverService, AGGridServiceImpl agGridService) {
+    public ServerResource(ServerServiceImpl serverService, AGGridServiceImpl agGridService, UserServiceImpl userService) {
         this.serverService = serverService;
         this.agGridService = agGridService;
+        this.userService = userService;
     }
 
     @DeleteMapping("/deleteStudent/{id}")
@@ -95,6 +99,51 @@ public class ServerResource {
                 .message("agGrid info retrieved")
                 .status(CREATED)
                 .statusCode(CREATED.value())
+                .build());
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<Response> getUsers() throws InterruptedException {
+        return ResponseEntity.ok(Response.builder()
+                .timeStamp(now())
+                .data(of("users", userService.users(50)))
+                .message("Users retrieved")
+                .status(OK)
+                .statusCode(OK.value())
+                .build());
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<Response> getUser(@RequestParam("email") String email) throws InterruptedException {
+        return ResponseEntity.ok(Response.builder()
+                .timeStamp(now())
+                .data(of("user", userService.findUserByEmail(email)))
+                .message("user retrieved")
+                .status(OK)
+                .statusCode(OK.value())
+                .build());
+    }
+
+    @PostMapping("/user")
+    public ResponseEntity<Response> saveStudentServer(@RequestBody
+                                                      @Valid User user) {
+        return ResponseEntity.ok(Response.builder()
+                .timeStamp(now())
+                .data(of("user", userService.createUser(user)))
+                .message("User created")
+                .status(CREATED)
+                .statusCode(CREATED.value())
+                .build());
+    }
+
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<Response> deleteUser(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(Response.builder()
+                .timeStamp(now())
+                .data(of("users", userService.deleteUser(id)))
+                .message("User deleted")
+                .status(OK)
+                .statusCode(OK.value())
                 .build());
     }
 }

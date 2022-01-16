@@ -12,7 +12,7 @@ import { AGGrid } from '../interface/aggrid';
   providedIn: 'root'
 })
 export class StudentService {
-  private readonly apiUrl = 'https://students-java-server.herokuapp.com';
+  private readonly apiUrl = 'http://localhost:8080';
 
   constructor(private http: HttpClient) {
   }
