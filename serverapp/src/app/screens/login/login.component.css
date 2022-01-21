@@ -1,0 +1,11 @@
+.loginForm {
+  width: 50%;
+  padding: 30px;
+  position: absolute;
+  left: 20%;
+  top: 20%;
+}
+
+.loginForm mat-card-title {
+  margin-bottom: 15px;
+}

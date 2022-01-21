@@ -1,15 +1,13 @@
 <div style="display: none">{{ this.agGridInfo$ | async | json }}</div>
 <div  style="display: flex; flex-direction: column; width: 100%; height: 100%;">
-  <p style="flex: 1;">
-    <mat-toolbar>
-      <span>Students list</span>
-      <span class="spacer"></span>
-      <button mat-stroked-button (click)="navigateToLoginPage()">Login/Register</button>
-      <button class="horizontal-margin" mat-raised-button color="accent" (click)="save()">Add</button>
-      <button mat-raised-button (click)="edit()" [disabled]="!selectedData$">Edit</button>
-      <button class="horizontal-margin" mat-raised-button color="warn" (click)="delete()" [disabled]="!selectedData$">Delete</button>
-    </mat-toolbar>
-  </p>
+  <mat-toolbar>
+    <span>Students list</span>
+    <span class="spacer"></span>
+    <button mat-stroked-button (click)="navigateToLoginPage()">Login/Register</button>
+    <button class="horizontal-margin" mat-raised-button color="accent" (click)="save()">Add</button>
+    <button mat-raised-button (click)="edit()" [disabled]="!selectedData$">Edit</button>
+    <button class="horizontal-margin" mat-raised-button color="warn" (click)="delete()" [disabled]="!selectedData$">Delete</button>
+  </mat-toolbar>
   <div *ngIf="showEditDialog">
     <app-edit-dialog (onCloseDialog)="onCloseDialog($event)" [selectedData]="selectedData$"></app-edit-dialog>
   </div>

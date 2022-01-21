@@ -1,8 +1,20 @@
-<form [formGroup]="form">
-  <mat-form-field appearance="fill">
-    <input matInput class="form-field fullWidth" placeholder="Username" formControlName="form.username">
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <input matInput class="form-field fullWidth" placeholder="password" formControlName="form.password">
-  </mat-form-field>
-</form>
+<mat-card class="loginForm">
+  <mat-card-title>Login / register</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="form">
+      <mat-form-field appearance="fill">
+        <input matInput class="form-field fullWidth" placeholder="Username" formControlName="username">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <input matInput class="form-field fullWidth" placeholder="Email" formControlName="email">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <input matInput class="form-field fullWidth" placeholder="password" formControlName="password">
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-button (click)="navigateToMainPage()">GO BACK</button>
+    <button mat-button (click)="registerUser()">LOGIN / REGISTER</button>
+  </mat-card-actions>
+</mat-card>
