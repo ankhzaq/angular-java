@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
-import { User } from '../interface/User';
+import { User } from '../interface/user';
 import { CustomResponseUser } from '../interface/custom-response-user';
 
 @Injectable({
@@ -21,10 +21,7 @@ export class UserService {
   );
 
   save$ = (user: User) => <Observable<CustomResponseUser>>
-    this.http.post<CustomResponseUser>(`${this.apiUrl}/server/user`, user).pipe(
-      tap(console.log),
-      catchError(this.handleError)
-    )
+    this.http.post(`${this.apiUrl}/server/user`, user).pipe(map(data => data))
 
   delete$ = (userId: number) => <Observable<CustomResponseUser>>
     this.http.delete<CustomResponseUser>(`${this.apiUrl}/server/deleteStudent/${userId}`).pipe(

@@ -1,4 +1,5 @@
 import { Student } from './student';
+import { User } from './user';
 
 export interface CustomResponse {
   timeStamp: Date;
@@ -7,5 +8,5 @@ export interface CustomResponse {
   reason: string;
   message: string;
   developerMessage: string;
-  data: { students?: Student[], student?: Student };
+  data: { students?: Student[], student?: Student, users?: User[], user?: User };
 }

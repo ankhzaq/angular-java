@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from '../../interface/User';
+import { User } from '../../interface/user';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AppState } from '../../interface/app-state';
 import { catchError, map, startWith } from 'rxjs/operators';
 import { DataState } from '../../enum/data.state.enum';
 import { UserService } from 'src/app/service/user.service';
-import { CustomResponse } from '../../interface/custom-response';
 import { CustomResponseUser } from '../../interface/custom-response-user';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -18,9 +18,10 @@ import { CustomResponseUser } from '../../interface/custom-response-user';
 export class LoginComponent implements OnInit {
 
   private dataSubject = new BehaviorSubject<CustomResponseUser>(null);
+  userInfo$: Observable<AppState<CustomResponseUser>>;
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService, private http: HttpClient) { }
 
   navigateToMainPage(): void {
     this.router.navigateByUrl('/');
@@ -28,22 +29,22 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     const formFields = {
-      username: this.formBuilder.control(''),
-      email: this.formBuilder.control(''),
-      password: this.formBuilder.control('')
+      username: this.formBuilder.control('user'),
+      email: this.formBuilder.control('user@gmail.com'),
+      password: this.formBuilder.control('pass')
     };
     this.form = this.formBuilder.group(formFields);
   }
 
   registerUser(): void {
-    console.log("value: ", this.form.getRawValue());
-    this.userService.save$(this.form.getRawValue()).pipe(map(response => {
-      this.dataSubject.next({ ...response });
-      return { dataState: DataState.LOADED_STATE, appData: this.dataSubject.value };
-    }), catchError((error: string) => {
-      debugger;
-      return of({ dataState: DataState.ERROR_STATE, error });
-    }));
+    const newUser: User = this.form.getRawValue();
+    this.userService.save$(newUser).subscribe(result => {
+      const { statusCode } = result;
+      if (statusCode === 201) {
+        // user registered
+      }
+    }, (response) => {
+      // there has been an error.
+    });
   }
-
 }
