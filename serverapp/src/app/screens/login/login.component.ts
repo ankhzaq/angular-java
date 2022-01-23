@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../../interface/user';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { AppState } from '../../interface/app-state';
-import { catchError, map, startWith } from 'rxjs/operators';
-import { DataState } from '../../enum/data.state.enum';
 import { UserService } from 'src/app/service/user.service';
 import { CustomResponseUser } from '../../interface/custom-response-user';
 import { HttpClient } from '@angular/common/http';
@@ -17,11 +15,15 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LoginComponent implements OnInit {
 
-  private dataSubject = new BehaviorSubject<CustomResponseUser>(null);
-  userInfo$: Observable<AppState<CustomResponseUser>>;
+  errorLoginRegister: Boolean = false;
   form: FormGroup;
+  loginMode: Boolean = true;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService, private http: HttpClient) { }
+
+  changeForm(): void {
+    if (this.errorLoginRegister) this.errorLoginRegister = false;
+  }
 
   navigateToMainPage(): void {
     this.router.navigateByUrl('/');
@@ -29,22 +31,41 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     const formFields = {
-      username: this.formBuilder.control('user'),
-      email: this.formBuilder.control('user@gmail.com'),
-      password: this.formBuilder.control('pass')
+      username: ['user', Validators.required],
+      email: ['user@gmail.com', [Validators.required, Validators.email]],
+      password: ['pass', Validators.required]
     };
     this.form = this.formBuilder.group(formFields);
   }
 
+  loginUser(): void {
+    if (!this.loginMode) {
+      this.loginMode = true;
+    } else {
+      const { email, password } = this.form.getRawValue();
+      this.userService.findUserByEmail$(email, password).subscribe(result => {
+        this.navigateToMainPage();
+      }, (response) => {
+        this.errorLoginRegister = true;
+        // there has been an error.
+      });
+    }
+  }
+
   registerUser(): void {
-    const newUser: User = this.form.getRawValue();
-    this.userService.save$(newUser).subscribe(result => {
-      const { statusCode } = result;
-      if (statusCode === 201) {
-        // user registered
-      }
-    }, (response) => {
-      // there has been an error.
-    });
+    if (this.loginMode) {
+      this.loginMode = false;
+    } else {
+      const newUser: User = this.form.getRawValue();
+      this.userService.save$(newUser).subscribe(result => {
+        const { statusCode } = result;
+        if (statusCode === 201) {
+          this.navigateToMainPage();
+        }
+      }, (response) => {
+        this.errorLoginRegister = true;
+        // there has been an error.
+      });
+    }
   }
 }

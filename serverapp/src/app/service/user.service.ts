@@ -20,6 +20,9 @@ export class UserService {
     catchError(this.handleError)
   );
 
+  findUserByEmail$ = (email: string, password: string) => <Observable<CustomResponseUser>>
+    this.http.get(`${this.apiUrl}/server/user?email=${email}&password=${password}`).pipe(map(data => data))
+
   save$ = (user: User) => <Observable<CustomResponseUser>>
     this.http.post(`${this.apiUrl}/server/user`, user).pipe(map(data => data))
 

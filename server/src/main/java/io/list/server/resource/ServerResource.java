@@ -19,6 +19,8 @@ import static org.springframework.http.HttpStatus.OK;
 import io.list.server.model.Response;
 import io.list.server.service.implementation.ServerServiceImpl;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/server")
 public class ServerResource {
@@ -114,10 +116,10 @@ public class ServerResource {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<Response> getUser(@RequestParam("email") String email) throws InterruptedException {
+    public ResponseEntity<Response> findUserByEmailPass(@RequestParam("email") String email, @RequestParam("password") String password) throws InterruptedException {
         return ResponseEntity.ok(Response.builder()
                 .timeStamp(now())
-                .data(of("user", userService.findUserByEmail(email)))
+                .data(of("user", userService.findUserByEmailPass(email, password)))
                 .message("user retrieved")
                 .status(OK)
                 .statusCode(OK.value())

@@ -5,11 +5,9 @@ import io.list.server.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 import static java.lang.Boolean.TRUE;
@@ -27,9 +25,8 @@ public class UserServiceImpl {
         return userRepo.findAll(PageRequest.of(0, limit)).toList();
     }
 
-    public User findUserByEmail(String email) {
-        log.info("Fetching user with the email: " + email);
-        return userRepo.findByEmail(email);
+    public User findUserByEmailPass(String email, String password) {
+        return userRepo.findUserByEmailPass(email, password);
     }
 
     public User createUser(User user) {
