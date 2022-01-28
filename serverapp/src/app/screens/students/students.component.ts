@@ -14,6 +14,8 @@ import { ButtonComponent } from '../../components/button/button.component';
 import { CustomResponseAGGrid } from '../../interface/custom-response-aggrid';
 import { AGGrid } from '../../interface/aggrid';
 import { Router } from '@angular/router';
+import { getPropertySession, initializeSession } from '../../../helpers/utils';
+import { User } from '../../interface/user';
 
 @Component({
   selector: 'students-component',
@@ -21,6 +23,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./students.component.css']
 })
 export class StudentsComponent implements OnInit {
+  user: User = getPropertySession('user');
   agGridInfo$: Observable<AppState<CustomResponseAGGrid>>;
   appState$: Observable<AppState<CustomResponse>>;
   private dataSubjectAGGridInfo = new BehaviorSubject<CustomResponseAGGrid>(null);
@@ -28,7 +31,9 @@ export class StudentsComponent implements OnInit {
   selectedData$: Server = null;
   showEditDialog: Boolean = false;
 
-  constructor(private studentService: StudentService, private router: Router) {}
+  constructor(private studentService: StudentService, private router: Router) {
+    initializeSession();
+  }
 
   readonly framework: object = {
     isPreply: ButtonComponent,

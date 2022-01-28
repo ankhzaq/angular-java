@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../../interface/user';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { AppState } from '../../interface/app-state';
 import { UserService } from 'src/app/service/user.service';
-import { CustomResponseUser } from '../../interface/custom-response-user';
 import { HttpClient } from '@angular/common/http';
+import { addPropertySession, initializeSession } from '../../../helpers/utils';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +17,9 @@ export class LoginComponent implements OnInit {
   form: FormGroup;
   loginMode: Boolean = true;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService, private http: HttpClient) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService, private http: HttpClient) {
+    initializeSession();
+  }
 
   changeForm(): void {
     if (this.errorLoginRegister) this.errorLoginRegister = false;
@@ -44,6 +44,8 @@ export class LoginComponent implements OnInit {
     } else {
       const { email, password } = this.form.getRawValue();
       this.userService.findUserByEmail$(email, password).subscribe(result => {
+        const { user } = result.data;
+        addPropertySession('user', user);
         this.navigateToMainPage();
       }, (response) => {
         this.errorLoginRegister = true;
@@ -58,7 +60,8 @@ export class LoginComponent implements OnInit {
     } else {
       const newUser: User = this.form.getRawValue();
       this.userService.save$(newUser).subscribe(result => {
-        const { statusCode } = result;
+        const { data: { user }, statusCode } = result;
+        addPropertySession('user', user);
         if (statusCode === 201) {
           this.navigateToMainPage();
         }
