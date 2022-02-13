@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../../interface/user';
-import { UserService } from 'src/app/service/user.service';
+import { UserService } from '../../service/user.service';
 import { HttpClient } from '@angular/common/http';
 import { addPropertySession, initializeSession } from '../../../helpers/utils';
 
@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
   loginUser(): void {
     if (!this.loginMode) {
       this.loginMode = true;
-    } else {
+    } else if (this.form) {
       const { email, password } = this.form.getRawValue();
       this.userService.findUserByEmail$(email, password).subscribe(result => {
         const { user } = result.data;
@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
   registerUser(): void {
     if (this.loginMode) {
       this.loginMode = false;
-    } else {
+    } else if (this.form) {
       const newUser: User = this.form.getRawValue();
       this.userService.save$(newUser).subscribe(result => {
         const { data: { user }, statusCode } = result;

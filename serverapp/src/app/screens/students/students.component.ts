@@ -14,7 +14,7 @@ import { ButtonComponent } from '../../components/button/button.component';
 import { CustomResponseAGGrid } from '../../interface/custom-response-aggrid';
 import { AGGrid } from '../../interface/aggrid';
 import { Router } from '@angular/router';
-import { getPropertySession, initializeSession } from '../../../helpers/utils';
+import { getPropertySession, initializeSession, removePropertySession } from '../../../helpers/utils';
 import { User } from '../../interface/user';
 
 @Component({
@@ -101,6 +101,7 @@ export class StudentsComponent implements OnInit {
   }
 
   navigateToLoginPage(): void {
+    if (this.user) removePropertySession('user');
     this.router.navigateByUrl('/login');
   }
 

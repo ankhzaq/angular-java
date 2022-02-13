@@ -27,14 +27,9 @@
       </mat-error>
     </form>
   </mat-card-content>
-  <mat-card-actions align="end" *ngIf="loginMode">
+  <mat-card-actions align="end">
     <button mat-button (click)="navigateToMainPage()">GO BACK</button>
-    <button mat-button (click)="registerUser()" color="accent">REGISTER</button>
-    <button mat-button mat-raised-button (click)="loginUser()" color="accent">LOGIN</button>
-  </mat-card-actions>
-  <mat-card-actions align="end" *ngIf="!loginMode">
-    <button mat-button (click)="navigateToMainPage()">GO BACK</button>
-    <button mat-button mat-raised-button (click)="registerUser()" color="accent">REGISTER</button>
-    <button mat-button (click)="loginUser()" color="accent">LOGIN</button>
+    <button mat-button mat-raised-button (click)="registerUser()" [color]="loginMode === false ? 'accent' : null" color="accent">REGISTER</button>
+    <button mat-button mat-raised-button (click)="loginUser()" [color]="loginMode ? 'accent' : null">LOGIN</button>
   </mat-card-actions>
 </mat-card>

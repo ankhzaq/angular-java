@@ -30,36 +30,40 @@ const routes: Routes = [
   { path: '**', component: StudentsComponent },
 ];
 
+export const listImports = [
+  MatInputModule,
+  MatFormFieldModule,
+  AgGridModule.withComponents([]),
+  BrowserAnimationsModule,
+  BrowserModule,
+  HttpClientModule,
+  MatButtonModule,
+  MatCardModule,
+  MatDialogModule,
+  MatIconModule,
+  MatSelectModule,
+  MatToolbarModule,
+  ReactiveFormsModule,
+  MatSliderModule,
+  MatGridListModule,
+  RouterModule.forRoot(routes)
+];
+
+export const listDeclarations = [
+  AppComponent,
+  ButtonComponent,
+  SelectComponent,
+  InputNumberComponent,
+  ButtonComponent,
+  EditDialogComponent,
+  DialogContent,
+  LoginComponent,
+  StudentsComponent
+];
+
 @NgModule({
-  declarations: [
-    AppComponent,
-    ButtonComponent,
-    SelectComponent,
-    InputNumberComponent,
-    ButtonComponent,
-    EditDialogComponent,
-    DialogContent,
-    LoginComponent,
-    StudentsComponent
-  ],
-  imports: [
-    MatInputModule,
-    MatFormFieldModule,
-    AgGridModule.withComponents([]),
-    BrowserAnimationsModule,
-    BrowserModule,
-    HttpClientModule,
-    MatButtonModule,
-    MatCardModule,
-    MatDialogModule,
-    MatIconModule,
-    MatSelectModule,
-    MatToolbarModule,
-    ReactiveFormsModule,
-    MatSliderModule,
-    MatGridListModule,
-    RouterModule.forRoot(routes)
-  ],
+  declarations: listDeclarations,
+  imports: listImports,
   providers: [],
   bootstrap: [AppComponent]
 })

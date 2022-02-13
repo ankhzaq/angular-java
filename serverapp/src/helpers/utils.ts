@@ -6,6 +6,11 @@ export const addPropertySession = (property, newValue) => {
   session[property] = newValue;
   sessionStorage.setItem(sessionName, JSON.stringify(session));
 };
+export const removePropertySession = (property) => {
+  const session = getSession();
+  delete session[property];
+  sessionStorage.setItem(sessionName, JSON.stringify(session));
+};
 export const getPropertySession = (property) => {
   return getSession()[property];
 };
