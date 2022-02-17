@@ -16,9 +16,6 @@ describe('Login Component', () => {
 
 
   beforeEach(waitForAsync(() => {
-
-    const userServiceSpy = jasmine.createSpyObj('UserService', ['findAllCourses']);
-
     TestBed.configureTestingModule({
       imports: listImports,
       providers: [
@@ -87,4 +84,61 @@ describe('Login Component', () => {
 
     expect(component.navigateToMainPage).toHaveBeenCalled();
   });
+
+  it('form validations -login', () => {
+    fixture.detectChanges();
+
+    component.loginMode = true;
+
+    expect(component.form.valid).toBeTruthy();
+
+    // check email validation
+    const email = component.form.controls.email;
+    email.setValue('');
+    expect(component.form.valid).toBeFalsy();
+    email.setValue('fakeMail');
+    expect(component.form.valid).toBeFalsy();
+    email.setValue('fakeMail@mail.com');
+    expect(component.form.valid).toBeTruthy();
+
+    // check password validation
+    const password = component.form.controls.password;
+    password.setValue('');
+    expect(component.form.valid).toBeFalsy();
+    password.setValue('fakePass');
+    expect(component.form.valid).toBeTruthy();
+
+  });
+
+  it('form validations -register', () => {
+    fixture.detectChanges();
+
+    component.loginMode = false;
+
+    expect(component.form.valid).toBeTruthy();
+
+    // check email validation
+    const email = component.form.controls.email;
+    email.setValue('');
+    expect(component.form.valid).toBeFalsy();
+    email.setValue('fakeMail');
+    expect(component.form.valid).toBeFalsy();
+    email.setValue('fakeMail@mail.com');
+    expect(component.form.valid).toBeTruthy();
+
+    // check password validation
+    const password = component.form.controls.password;
+    password.setValue('');
+    expect(component.form.valid).toBeFalsy();
+    password.setValue('fakePass');
+    expect(component.form.valid).toBeTruthy();
+
+    // check username validation
+    const username = component.form.controls.username;
+    username.setValue('');
+    expect(component.form.valid).toBeFalsy();
+    username.setValue('fakeUsername');
+    expect(component.form.valid).toBeTruthy();
+  });
+
 });

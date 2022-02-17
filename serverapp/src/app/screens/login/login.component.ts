@@ -13,6 +13,7 @@ import { addPropertySession, initializeSession } from '../../../helpers/utils';
 })
 export class LoginComponent implements OnInit {
 
+  loginRegisterDisabled: Boolean = false;
   errorLoginRegister: Boolean = false;
   form: FormGroup;
   loginMode: Boolean = true;
@@ -23,6 +24,17 @@ export class LoginComponent implements OnInit {
 
   changeForm(): void {
     if (this.errorLoginRegister) this.errorLoginRegister = false;
+  }
+
+  checkLoginRegisterDisabled(form): void {
+    const formToCheck = form || (this.form && this.form.getRawValue());
+    if (formToCheck) {
+      const { email, password, username } = formToCheck;
+      const usernameInvalid = !this.loginMode && !username.length;
+      this.loginRegisterDisabled = !email.length || !password.length || usernameInvalid;
+    } else {
+     this.loginRegisterDisabled = true;
+    }
   }
 
   navigateToMainPage(): void {
@@ -36,6 +48,10 @@ export class LoginComponent implements OnInit {
       password: ['pass', Validators.required]
     };
     this.form = this.formBuilder.group(formFields);
+
+    this.form.valueChanges.subscribe(form => {
+      this.checkLoginRegisterDisabled(form);
+    });
   }
 
   loginUser(): void {

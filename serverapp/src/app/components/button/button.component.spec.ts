@@ -9,7 +9,7 @@ import { ButtonComponent } from './button.component';
 
 
 
-describe('ButtonComponent', () => {
+describe('Button Component', () => {
 
   let fixture: ComponentFixture<ButtonComponent>;
   let component: ButtonComponent;
@@ -18,8 +18,6 @@ describe('ButtonComponent', () => {
 
 
   beforeEach(waitForAsync(() => {
-
-    const userServiceSpy = jasmine.createSpyObj('UserService', ['findAllCourses']);
 
     TestBed.configureTestingModule({
       imports: [
