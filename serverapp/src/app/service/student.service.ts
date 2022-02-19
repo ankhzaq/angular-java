@@ -22,11 +22,11 @@ export class StudentService {
     catchError(this.handleError)
   );
 
-  agGridInfo$ = () => <Observable<CustomResponseAGGrid>>
+  agGridInfo$ = <Observable<CustomResponseAGGrid>>
     this.http.get<CustomResponseAGGrid>(`${this.apiUrl}/server/agGridInfo`).pipe(
       tap(console.log),
       catchError(this.handleError)
-    )
+    );
 
   saveAGGridInfo$ = (aggrid: AGGrid) => <Observable<CustomResponseAGGrid>>
     this.http.patch<CustomResponseAGGrid>(`${this.apiUrl}/server/updateAGGridInfo`, aggrid).pipe(

@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Student</h1>
 <div>
-  <form [formGroup]="data" class="fullSize">
+  <form [formGroup]="form" class="fullSize">
     <mat-card class="fullWidth">
       <mat-card-title>Basic Info</mat-card-title>
       <mat-form-field class="example-full-width" appearance="fill">
@@ -46,5 +46,5 @@
       <textarea matInput formControlName="objectivesInfo" class="fullWidth" placeholder="Objectives info"></textarea>
     </mat-card>
   </form>
-  <button mat-button [mat-dialog-close]="data" class="fullWidth">Update</button>
+  <button id="editDialog-btn-update" mat-button [mat-dialog-close]="form" class="fullWidth">Update</button>
 </div>

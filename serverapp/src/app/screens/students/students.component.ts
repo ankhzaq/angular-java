@@ -4,7 +4,6 @@ import { CustomResponse } from '../../interface/custom-response';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
 import { DataState } from '../../enum/data.state.enum';
-import { Server } from '../../interface/server';
 import { StudentService } from '../../service/student.service';
 import { Student } from '../../interface/student';
 import { Levels } from '../../enum/levels.enum';
@@ -28,7 +27,7 @@ export class StudentsComponent implements OnInit {
   appState$: Observable<AppState<CustomResponse>>;
   private dataSubjectAGGridInfo = new BehaviorSubject<CustomResponseAGGrid>(null);
   private dataSubject = new BehaviorSubject<CustomResponse>(null);
-  selectedData$: Server = null;
+  selectedData$: Student = null;
   showEditDialog: Boolean = false;
 
   constructor(private studentService: StudentService, private router: Router) {
@@ -101,12 +100,12 @@ export class StudentsComponent implements OnInit {
   }
 
   navigateToLoginPage(): void {
-    if (this.user) removePropertySession('user');
+    if (this.user) { removePropertySession('user'); }
     this.router.navigateByUrl('/login');
   }
 
   ngOnInit(): void {
-    this.agGridInfo$ = this.studentService.agGridInfo$().pipe(map(response => {
+    this.agGridInfo$ = this.studentService.agGridInfo$.pipe(map(response => {
       this.dataSubjectAGGridInfo.next(response);
       this.columns$ = this.getColumns(response.data.agGrid.columns);
       return { dataState: DataState.LOADED_STATE, appData: response };

@@ -2,19 +2,16 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AppModule } from '../../app.module';
 import { DebugElement } from '@angular/core';
 
-import { UserService } from '../../service/user.service';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { EditDialogComponent } from './edit-dialog.component';
-import { Student } from 'app/interface/student';
-import { Levels } from '../../enum/levels.enum';
-import { By } from '@angular/platform-browser';
+import { mockupStudent } from '../../../helpers/constants';
 
 describe('Edit dialog component', () => {
 
   let fixture: ComponentFixture<EditDialogComponent>;
+  let compiled: any;
   let component: EditDialogComponent;
   let el: DebugElement;
-  let userService: any;
 
 
   beforeEach(waitForAsync(() => {
@@ -23,15 +20,14 @@ describe('Edit dialog component', () => {
         AppModule,
         NoopAnimationsModule
       ],
-      providers: [
-        {provide: UserService, useValue: UserService}
-      ]
+      providers: []
     }).compileComponents()
       .then(() => {
         fixture = TestBed.createComponent(EditDialogComponent);
         component = fixture.componentInstance;
         el = fixture.debugElement;
-        userService = TestBed.get(UserService);
+        compiled = fixture.debugElement.nativeElement;
+        fixture.detectChanges();
       });
   }));
 
@@ -42,26 +38,14 @@ describe('Edit dialog component', () => {
   it('check initial data', () => {
     fixture.detectChanges();
 
-    expect(component.form.valid).toBeFalsy();
-
-    /*const mockupData: Student = {
-      name: 'nameStudent',
-      isPreply: true,
-      level: Levels.A1,
-      progressInfo: 'progress mockup',
-      objectivesInfo: 'objectives mockup',
-      nextClassInfo: 'nextClass mockup',
-      hobbiesInfo: 'hobbies mockup',
-      numPaidClasses: 3
-    };
-
-    component.selectedData = mockupData;
+    component.data = mockupStudent;
     fixture.detectChanges();
 
+    Object.keys(mockupStudent).forEach((key) => {
+      const valueMockup = mockupStudent[key];
+      const valueForm = component.form.controls[key].value;
+      expect(valueForm).toBe(valueMockup);
+    });
     expect(component.form.valid).toBeTruthy();
-    const name = component.form.controls.name;
-    console.log(name);
-    // expect(name.getText()).toBe('nameStudent');
-    expect(component).toBeTruthy();*/
   });
 });

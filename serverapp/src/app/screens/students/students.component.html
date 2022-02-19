@@ -10,9 +10,7 @@
     <button mat-raised-button (click)="edit()" [disabled]="!selectedData$">Edit</button>
     <button class="horizontal-margin" mat-raised-button color="warn" (click)="delete()" [disabled]="!selectedData$">Delete</button>
   </mat-toolbar>
-  <div *ngIf="showEditDialog">
-    <app-edit-dialog (onCloseDialog)="onCloseDialog($event)" [selectedData]="selectedData$"></app-edit-dialog>
-  </div>
+  <app-edit-dialog *ngIf="showEditDialog" (onCloseDialog)="onCloseDialog($event)" [data]="selectedData$"></app-edit-dialog>
   <mat-card *ngIf="(appState$ | async) as appState" style="flex: 20; background: none;">
     <ag-grid-angular
       class="ag-theme-alpine"

@@ -2,7 +2,7 @@ import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Student } from '../../interface/student';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { isPreplyOptions } from '../../../helpers/constants';
+import { isPreplyOptions, mockupStudent } from '../../../helpers/constants';
 import { Levels } from '../../enum/levels.enum';
 
 @Component({
@@ -10,18 +10,20 @@ import { Levels } from '../../enum/levels.enum';
   template: '',
 })
 export class EditDialogComponent implements OnInit {
-  @Input() selectedData: Student;
+  @Input() data: Student = mockupStudent;
   @Output() onCloseDialog = new EventEmitter<any>();
 
   form: FormGroup;
+  levels: string[] = Object.keys(Levels);
+  options: { value: boolean, viewValue: string }[] = isPreplyOptions;
 
   constructor(public dialog: MatDialog, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
-    const fields = Object.keys(this.selectedData);
+    const fields = Object.keys(this.data);
     const fieldsForm = {};
     fields.forEach((field) => {
-      fieldsForm[field] = this.formBuilder.control(this.selectedData[field]);
+      fieldsForm[field] = this.formBuilder.control(this.data[field]);
     });
     this.form = this.formBuilder.group(fieldsForm);
     const dialogRef = this.dialog.open(DialogContent, {
@@ -44,6 +46,5 @@ export class DialogContent {
   options = isPreplyOptions;
   levels = Object.keys(Levels);
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: FormGroup) {
-  }
+  constructor(@Inject(MAT_DIALOG_DATA) public form: FormGroup) {}
 }

@@ -1,5 +1,3 @@
-import { Student } from './student';
-
 export interface CustomResponseAGGrid {
   timeStamp: Date;
   statusCode: number;
