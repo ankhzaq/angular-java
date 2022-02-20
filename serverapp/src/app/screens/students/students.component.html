@@ -4,7 +4,7 @@
     <span>Students list</span>
     <span class="spacer"></span>
     <span>{{this.user ? this.user.username : '(guest)'}}</span>
-    <button mat-stroked-button (click)="navigateToLoginPage()" *ngIf="!this.user" class="horizontal-margin">Login/Register</button>
+    <button id="students-btn-login" mat-stroked-button (click)="navigateToLoginPage()" *ngIf="!this.user" class="horizontal-margin">Login/Register</button>
     <button mat-flat-button (click)="navigateToLoginPage()" *ngIf="this.user" class="horizontal-margin" color="warn">Logout</button>
     <button class="horizontal-margin" mat-raised-button color="accent" (click)="save()">Add</button>
     <button mat-raised-button (click)="edit()" [disabled]="!selectedData$">Edit</button>

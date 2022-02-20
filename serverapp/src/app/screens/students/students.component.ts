@@ -105,18 +105,19 @@ export class StudentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.agGridInfo$ = this.studentService.agGridInfo$.pipe(map(response => {
-      this.dataSubjectAGGridInfo.next(response);
-      this.columns$ = this.getColumns(response.data.agGrid.columns);
-      return { dataState: DataState.LOADED_STATE, appData: response };
-    }), catchError((error: string) => {
-      return of({ dataState: DataState.ERROR_STATE, error });
-    }));
 
     this.appState$ = this.studentService.students$.pipe(map(response => {
       this.dataSubject.next(response);
       return { dataState: DataState.LOADED_STATE, appData: response };
     }), startWith({ dataState: DataState.LOADING_STATE }), catchError((error: string) => {
+      return of({ dataState: DataState.ERROR_STATE, error });
+    }));
+
+    this.agGridInfo$ = this.studentService.agGridInfo$.pipe(map(response => {
+      this.dataSubjectAGGridInfo.next(response);
+      this.columns$ = this.getColumns(response.data.agGrid.columns);
+      return { dataState: DataState.LOADED_STATE, appData: response };
+    }), catchError((error: string) => {
       return of({ dataState: DataState.ERROR_STATE, error });
     }));
   }

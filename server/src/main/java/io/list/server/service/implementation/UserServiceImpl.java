@@ -4,6 +4,7 @@ import io.list.server.model.User;
 import io.list.server.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +13,14 @@ import java.util.Collection;
 
 import static java.lang.Boolean.TRUE;
 
-@RequiredArgsConstructor
+
+
 @Service
-@Transactional
 @Slf4j
 public class UserServiceImpl {
 
-    private final UserRepo userRepo;
+    @Autowired
+    UserRepo userRepo;
 
     public Collection<User> users(Integer limit) {
         log.info("Fetching all users");
