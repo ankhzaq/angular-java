@@ -4,13 +4,15 @@ import { DebugElement, Injectable } from '@angular/core';
 
 import { StudentService } from '../../service/student.service';
 import { StudentsComponent } from './students.component';
-import { of, throwError } from 'rxjs';
-import { mockupResponseAGGrid, mockupResponseStudents } from '../../../helpers/constants';
-import { DataState } from '../../enum/data.state.enum';
+import { Observable, of, throwError } from 'rxjs';
+import { mockupResponseAGGrid, mockupResponseStudents, mockupStudent } from '../../../helpers/constants';
 import { HttpClient } from '@angular/common/http';
 import { By } from '@angular/platform-browser';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { DataState } from '../../enum/data.state.enum';
 
 let httpClientSpy: jasmine.SpyObj<HttpClient>;
+let httpMock: HttpTestingController;
 
 class ProviderMock {
 
@@ -104,7 +106,7 @@ describe('Students Component - error service', () => {
     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
 
     TestBed.configureTestingModule({
-      imports: listImports,
+      imports: [...listImports, HttpClientTestingModule],
       providers: [
         {
           provide: StudentService,
@@ -120,6 +122,7 @@ describe('Students Component - error service', () => {
         fixture.detectChanges();
       });
     TestBed.inject(StudentService);
+    httpMock = TestBed.inject(HttpTestingController);
   }));
 
   it('check mockup students service', () => {
@@ -127,5 +130,65 @@ describe('Students Component - error service', () => {
     component.appState$.subscribe((info) => {
       expect(info.dataState).not.toBe(DataState.LOADED_STATE);
     });
+  });
+});
+
+describe('Students Component - check buttons', () => {
+
+  let fixture: ComponentFixture<StudentsComponent>;
+  let compiled: any;
+  let component: StudentsComponent;
+  let el: DebugElement;
+
+
+  beforeEach(waitForAsync(() => {
+
+    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
+
+    TestBed.configureTestingModule({
+      imports: [...listImports, HttpClientTestingModule],
+      providers: [
+        {
+          provide: StudentService,
+          useClass: ProviderMockError,
+        },
+      ]
+    }).compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent(StudentsComponent);
+        component = fixture.componentInstance;
+        el = fixture.debugElement;
+        compiled = fixture.debugElement.nativeElement;
+        fixture.detectChanges();
+      });
+    TestBed.inject(StudentService);
+    httpMock = TestBed.inject(HttpTestingController);
+  }));
+
+  it('add new row', () => {
+    spyOn(component, 'save');
+    const buttonAdd = el.query(By.css('#students-btn-add'));
+    buttonAdd.triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    expect(component.save).toHaveBeenCalled();
+  });
+
+  it('delete new row', () => {
+
+    spyOn(component, 'delete');
+    fixture.detectChanges();
+    const buttonDelete = el.query(By.css('#students-btn-delete'));
+    buttonDelete.triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    expect(component.delete).toHaveBeenCalled();
+    expect(buttonDelete.properties.disabled).toBeTruthy();
+    component.selectedData$ = mockupStudent;
+    fixture.detectChanges();
+    expect(buttonDelete.properties.disabled).toBeFalsy();
+    component.selectedData$ = null;
+    fixture.detectChanges();
+    expect(buttonDelete.properties.disabled).toBeTruthy();
   });
 });

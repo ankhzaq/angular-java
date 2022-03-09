@@ -6,9 +6,9 @@
     <span>{{this.user ? this.user.username : '(guest)'}}</span>
     <button id="students-btn-login" mat-stroked-button (click)="navigateToLoginPage()" *ngIf="!this.user" class="horizontal-margin">Login/Register</button>
     <button mat-flat-button (click)="navigateToLoginPage()" *ngIf="this.user" class="horizontal-margin" color="warn">Logout</button>
-    <button class="horizontal-margin" mat-raised-button color="accent" (click)="save()">Add</button>
+    <button class="horizontal-margin" id="students-btn-add" mat-raised-button color="accent" (click)="save()">Add</button>
     <button mat-raised-button (click)="edit()" [disabled]="!selectedData$">Edit</button>
-    <button class="horizontal-margin" mat-raised-button color="warn" (click)="delete()" [disabled]="!selectedData$">Delete</button>
+    <button class="horizontal-margin" id="students-btn-delete" mat-raised-button color="warn" (click)="delete()" [disabled]="!selectedData$">Delete</button>
   </mat-toolbar>
   <app-edit-dialog *ngIf="showEditDialog" (onCloseDialog)="onCloseDialog($event)" [data]="selectedData$"></app-edit-dialog>
   <mat-card *ngIf="(appState$ | async) as appState" style="flex: 20; background: none;">
