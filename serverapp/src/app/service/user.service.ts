@@ -9,7 +9,7 @@ import { CustomResponseUser } from '../interface/custom-response-user';
   providedIn: 'root'
 })
 export class UserService {
-  private readonly apiUrl = 'http://localhost:8080';
+  private readonly apiUrl = 'https://students-java-server.herokuapp.com';
 
   constructor(private http: HttpClient) {
   }
